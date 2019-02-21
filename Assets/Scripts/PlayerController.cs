@@ -25,30 +25,20 @@ public class PlayerController : MonoBehaviour {
     //These are all floats that control camera movement
     public float xSensitivity, ySensitivity, maxXRot;
 
-    //This is the rigidbody component for the player. It will be used to control the character using physics
-    Rigidbody rb;
+    public float speed = 6.0f;
+    public float jumpSpeed = 8.0f;
+    public float gravity = 20.0f;
 
-    bool grounded = false;
-
-    //These are movement speeds used later to control the character
-    public float jumpSpeed = 400, runSpeed; 
-
-
-	// The start method runs when a script comes into existence and is enabled. Usually used for variable initiation or setup 
-
-	void Start () {
-
-        //Here we are initializing the varaible we defined before to the rigidbody component that is attached to the same
-        //gameobject as this script. Now we have a reference to the rigidbody and can affect it with code.
-        rb = GetComponent<Rigidbody>();
-	}
+    private Vector3 moveDirection = Vector3.zero;
+    private CharacterController controller;
+    
+    void Start () {
+        controller = GetComponent<CharacterController>();
+    }
 	
-	// Update is called once per frame
 	void FixedUpdate () {
 
-        grounded = Physics.Raycast(transform.position, Vector3.down, 1.25f);
-
-        
+       
 
         if (Input.GetAxis("Mouse X") != 0 || Input.GetAxis("Mouse Y") != 0) {
 
@@ -61,35 +51,25 @@ public class PlayerController : MonoBehaviour {
         }
 
 
-        Vector3 velocity = new Vector3();
+        if (controller.isGrounded) {
+            // We are grounded, so recalculate
+            // move direction directly from axes
 
-        if (Input.GetAxis("Horizontal") != 0) {
-            velocity += transform.right * Input.GetAxis("Horizontal") * runSpeed;
-        }
+            
+            moveDirection = (cam.transform.forward * Input.GetAxis("Vertical")) + (cam.transform.right * Input.GetAxis("Horizontal"));
+            moveDirection.y = 0;
+            moveDirection = moveDirection * speed;
 
-
-        if (Input.GetAxis("Vertical") != 0) {
-            velocity += transform.forward * Input.GetAxis("Vertical") * runSpeed;
-
-        }
-
-     
-        if (Input.GetKeyDown(KeyCode.Space)) {
-            if (grounded) {
-                rb.AddForce(Vector3.up * jumpSpeed);
-                grounded = false;
+            if (Input.GetButton("Jump")) {
+                moveDirection.y = jumpSpeed;
             }
-        } 
+        }
 
-             rb.velocity = new Vector3(velocity.x, rb.velocity.y, velocity.z);
-        
-        
+        // Apply gravity
+        moveDirection.y = moveDirection.y - (gravity * Time.deltaTime);
 
-
-
-
-
-
+        // Move the controller
+        controller.Move(moveDirection * Time.deltaTime);
 
 
 

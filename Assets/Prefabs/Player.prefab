@@ -21,9 +21,9 @@ GameObject:
   - component: {fileID: 4711508134302182}
   - component: {fileID: 33660376994837852}
   - component: {fileID: 23131589993410772}
-  - component: {fileID: 136758125834365718}
-  - component: {fileID: 54700007581400088}
   - component: {fileID: 114443657777492592}
+  - component: {fileID: 136525544657963366}
+  - component: {fileID: 143035661790971850}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -68,7 +68,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1117706577556290}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 4, y: 50, z: 4}
+  m_LocalPosition: {x: 10, y: 50, z: 10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4284295479296638}
@@ -157,21 +157,6 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1117706577556290}
   m_Mesh: {fileID: 10208, guid: 0000000000000000e000000000000000, type: 0}
---- !u!54 &54700007581400088
-Rigidbody:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1117706577556290}
-  serializedVersion: 2
-  m_Mass: 1
-  m_Drag: 0
-  m_AngularDrag: 0.05
-  m_UseGravity: 1
-  m_IsKinematic: 0
-  m_Interpolate: 0
-  m_Constraints: 112
-  m_CollisionDetection: 0
 --- !u!81 &81353537532330808
 AudioListener:
   m_ObjectHideFlags: 1
@@ -194,9 +179,10 @@ MonoBehaviour:
   xSensitivity: 3
   ySensitivity: 3
   maxXRot: 60
-  runSpeed: 3
-  rb: {fileID: 0}
---- !u!136 &136758125834365718
+  speed: 6
+  jumpSpeed: 8
+  gravity: 20
+--- !u!136 &136525544657963366
 CapsuleCollider:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
@@ -205,7 +191,24 @@ CapsuleCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  m_Radius: 0.5
+  m_Radius: 0.4
   m_Height: 2
   m_Direction: 1
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!143 &143035661790971850
+CharacterController:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1117706577556290}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Height: 2
+  m_Radius: 0.5
+  m_SlopeLimit: 45
+  m_StepOffset: 0.3
+  m_SkinWidth: 0.08
+  m_MinMoveDistance: 0.001
   m_Center: {x: 0, y: 0, z: 0}
