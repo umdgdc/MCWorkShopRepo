@@ -6,17 +6,21 @@ Prefab:
   serializedVersion: 2
   m_Modification:
     m_TransformParent: {fileID: 0}
-    m_Modifications: []
+    m_Modifications:
+    - target: {fileID: 0}
+      propertyPath: cubeMat
+      value: 
+      objectReference: {fileID: 2100000, guid: b64894e845e882d42ae941c743b6c2bb, type: 2}
     m_RemovedComponents: []
-  m_SourcePrefab: {fileID: 0}
+  m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 1612931631340968}
-  m_IsPrefabAsset: 1
+  m_IsPrefabParent: 0
 --- !u!1 &1612931631340968
 GameObject:
   m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  serializedVersion: 6
+  serializedVersion: 5
   m_Component:
   - component: {fileID: 4891220353819694}
   - component: {fileID: 114069110087474872}
@@ -30,7 +34,7 @@ GameObject:
 --- !u!4 &4891220353819694
 Transform:
   m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1612931631340968}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
@@ -43,7 +47,7 @@ Transform:
 --- !u!114 &114069110087474872
 MonoBehaviour:
   m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1612931631340968}
   m_Enabled: 1
@@ -55,3 +59,4 @@ MonoBehaviour:
   Water: {fileID: 1896932114198824, guid: 2111d9cafcc77394586d4508b4cf0346, type: 2}
   Stone: {fileID: 1994180045355808, guid: 1a40d5e9b9d8c9f4aba14c7a915924d6, type: 2}
   Grass: {fileID: 1801354158494342, guid: 7831e116bfec5c14a9cfb058bebad980, type: 2}
+  cubeMat: {fileID: 2100000, guid: b64894e845e882d42ae941c743b6c2bb, type: 2}
