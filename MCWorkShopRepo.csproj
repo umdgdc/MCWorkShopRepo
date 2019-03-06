@@ -238,7 +238,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\BlockInteraction.cs" />
     <Compile Include="Assets\Scripts\Math and Utils\Noise.cs" />
+    <Compile Include="Assets\Scripts\Math and Utils\ProcessTextureAtlas.cs" />
     <Compile Include="Assets\Scripts\Math and Utils\Singleton.cs" />
     <Compile Include="Assets\Scripts\PlayerController.cs" />
     <Compile Include="Assets\Scripts\World Generation\Block.cs" />
