@@ -9,18 +9,18 @@ public class Block {
 
     enum Cubeside { BOTTOM, TOP, LEFT, RIGHT, FRONT, BACK };
 
-    BlockType bType;
+    byte bType;
     public bool isSolid;
     Chunk owner;
     GameObject parent;
     Vector3 position;
 
-    public Block(BlockType b, Vector3 pos, GameObject p, Chunk o) {
+    public Block(byte b, Vector3 pos, GameObject p, Chunk o) {
         bType = b;
         owner = o;
         parent = p;
         position = pos;
-        if (bType == BlockType.AIR)
+        if (bType == (byte)BlockType.AIR)
             isSolid = false;
         else
             isSolid = true;
@@ -41,23 +41,23 @@ public class Block {
         Vector2 uv01;
         Vector2 uv11;
 
-        if (bType == BlockType.GRASS && side == Cubeside.TOP) {
-            uv00 = World.Instance.blockUVs[0, 0];
-            uv10 = World.Instance.blockUVs[0, 1];
-            uv01 = World.Instance.blockUVs[0, 2];
-            uv11 = World.Instance.blockUVs[0, 3];
+        if (bType == (byte)BlockType.GRASS && side == Cubeside.TOP) {
+            uv00 = World.blockUVs[0, 0];
+            uv10 = World.blockUVs[0, 1];
+            uv01 = World.blockUVs[0, 2];
+            uv11 = World.blockUVs[0, 3];
         }
-        else if (bType == BlockType.GRASS && side == Cubeside.BOTTOM) {
-            uv00 = World.Instance.blockUVs[(int)(BlockType.DIRT + 1), 0];
-            uv10 = World.Instance.blockUVs[(int)(BlockType.DIRT + 1), 1];
-            uv01 = World.Instance.blockUVs[(int)(BlockType.DIRT + 1), 2];
-            uv11 = World.Instance.blockUVs[(int)(BlockType.DIRT + 1), 3];
+        else if (bType == (byte)BlockType.GRASS && side == Cubeside.BOTTOM) {
+            uv00 = World.blockUVs[(int)(BlockType.DIRT + 1), 0];
+            uv10 = World.blockUVs[(int)(BlockType.DIRT + 1), 1];
+            uv01 = World.blockUVs[(int)(BlockType.DIRT + 1), 2];
+            uv11 = World.blockUVs[(int)(BlockType.DIRT + 1), 3];
         }
         else {
-            uv00 = World.Instance.blockUVs[(int)(bType + 1), 0];
-            uv10 = World.Instance.blockUVs[(int)(bType + 1), 1];
-            uv01 = World.Instance.blockUVs[(int)(bType + 1), 2];
-            uv11 = World.Instance.blockUVs[(int)(bType + 1), 3];
+            uv00 = World.blockUVs[(int)(bType + 1), 0];
+            uv10 = World.blockUVs[(int)(bType + 1), 1];
+            uv01 = World.blockUVs[(int)(bType + 1), 2];
+            uv11 = World.blockUVs[(int)(bType + 1), 3];
         }
 
         //all possible vertices 
@@ -147,7 +147,7 @@ public class Block {
 
 
     public void Draw(bool top, bool bot, bool front, bool back, bool left, bool right) {
-        if (bType == BlockType.AIR) return;
+        if (bType == (byte)BlockType.AIR) return;
 
         if (front)
             CreateQuad(Cubeside.FRONT);

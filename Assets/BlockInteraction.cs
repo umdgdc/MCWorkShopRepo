@@ -5,7 +5,7 @@ using UnityEngine;
 public class BlockInteraction : MonoBehaviour {
 
     public Camera cam;
-    public GameObject TestClick;
+    public GameObject TestClick, itemBlock;
     public TextMesh tm;
 	// Use this for initialization
 	void Start () {
@@ -32,8 +32,19 @@ public class BlockInteraction : MonoBehaviour {
 
                 Vector3 localIndex = hit.point - hit.transform.position + (new Vector3(0.5f, 0.5f, 0.5f));
                 if (hit.normal.y == 1.0f) localIndex.y -= 0.5f;
+                if (hit.normal.x == 1.0f) localIndex.x -= 0.5f;
+                if (hit.normal.z == 1.0f) localIndex.z -= 0.5f;
                 tm.text = localIndex.ToString() + " Normal: " + hit.normal.ToString();
-                hit.transform.GetComponent<Chunk>().chunkdata[(int)(localIndex.x), (int)(localIndex.y), (int)(localIndex.z)] = BlockType.AIR;
+
+                byte b = hit.transform.GetComponent<Chunk>().chunkdata[(int)(localIndex.x), (int)(localIndex.y), (int)(localIndex.z)];
+                GameObject gem = GameObject.Instantiate(itemBlock, hit.point, Quaternion.identity);
+                gem.GetComponent<ItemBlock>().MakeCube(b);
+
+                //Make Cube
+
+
+
+                hit.transform.GetComponent<Chunk>().chunkdata[(int)(localIndex.x), (int)(localIndex.y), (int)(localIndex.z)] = (byte)BlockType.AIR;
                 hit.transform.GetComponent<Chunk>().BuildChunk();
                 
             }

@@ -4,13 +4,13 @@ using UnityEngine;
 
 public class Chunk : MonoBehaviour {
 
-    public BlockType[,,] chunkdata;
+    public byte[,,] chunkdata;
     public Block[,,] blockData;
     public GameObject cursorObj;
 
     public IEnumerator ChunkRoutine(int x, int y, int z) {
 
-        BuildChunk();
+        //BuildChunk();
 
         Chunk next;
         if (World.Instance.WorldList.TryGetValue(new Vector3(x+1, y, z), out next)) {
@@ -23,7 +23,7 @@ public class Chunk : MonoBehaviour {
 
     public void BuildMap() {
 
-        chunkdata = new BlockType[World.Instance.chunkSize, World.Instance.chunkheight, World.Instance.chunkSize];
+        chunkdata = new byte[World.Instance.chunkSize, World.Instance.chunkheight, World.Instance.chunkSize];
 
         blockData = new Block[World.Instance.chunkSize, World.Instance.chunkheight, World.Instance.chunkSize];
 
@@ -39,38 +39,27 @@ public class Chunk : MonoBehaviour {
                     
                     if (World.Instance.n.fBM3D((int)(x + transform.position.x), (int)(y + transform.position.y), (int)(z + transform.position.z), 0.1f, 3) < 0.42f) {
                         if (prevair && watertop && y < World.Instance.WaterHeight)
-                            chunkdata[x, y, z] = BlockType.WATER;
-                            else if (y < World.Instance.WaterHeight && prevair) chunkdata[x, y, z] = BlockType.WATER;
-                            else chunkdata[x, y, z] = BlockType.AIR;
+                            chunkdata[x, y, z] = (byte)BlockType.WATER;
+                            else if (y < World.Instance.WaterHeight && prevair) chunkdata[x, y, z] = (byte)BlockType.WATER;
+                            else chunkdata[x, y, z] = (byte)BlockType.AIR;
 
                     }
-
-                    /*
                     
-                    if (y <= World.Instance.n.GenerateStoneHeight(x+ transform.position.x, z + transform.position.z)) {
-
-                        chunkdata[x, y, z] = BlockType.STONE;
-                    }
-
-                    */
-                    
-
-                      
                      else if (y <= World.Instance.n.OldGenerateHeight(x + transform.position.x, z + transform.position.z)) {
                         if (prevair) {
                             prevair = false;
-                            chunkdata[x, y, z] = BlockType.GRASS;
+                            chunkdata[x, y, z] = (byte)BlockType.GRASS;
                         }
                         else {
-                            chunkdata[x, y, z] = BlockType.DIRT;
+                            chunkdata[x, y, z] = (byte)BlockType.DIRT;
                         }
 
                     }
                     else if (y < World.Instance.WaterHeight) {
-                        chunkdata[x, y, z] = BlockType.WATER;
+                        chunkdata[x, y, z] = (byte)BlockType.WATER;
                     }
                     else {
-                        chunkdata[x, y, z] = BlockType.AIR;
+                        chunkdata[x, y, z] = (byte)BlockType.AIR;
                     }
                     
                 }
@@ -80,13 +69,24 @@ public class Chunk : MonoBehaviour {
 
     Chunk testChunk;
 
+
+    /* This method is  used to check if a given block has a neighbour in the chunkdata 2D array
+     * it is used to determine what faces of a cube should be drawn.
+     */
     public bool isEmpty(int x, int y, int z) {
 
+
+
+        /* Try catch is used to catch if something goes out of bounds this is more efficient than doing
+         * 6 range comparisons for every face of every cube to check if x,y,z are in bound
+         */
         try {
-            return chunkdata[x, y, z] == BlockType.AIR;
+
+            return chunkdata[x, y, z] == (byte)BlockType.AIR;
         }
         catch (System.IndexOutOfRangeException) {
 
+            //Now that we know we are checking outside of the chunk we have to check the adjacent junk instead
 
             Vector3 OutsideChunk = (transform.position / World.Instance.chunkSize);
 
@@ -103,7 +103,7 @@ public class Chunk : MonoBehaviour {
             try {
 
                 return testChunk.chunkdata[(x + World.Instance.chunkSize) % World.Instance.chunkSize,
-                                     y, (z + World.Instance.chunkSize) % World.Instance.chunkSize] == BlockType.AIR;
+                                     y, (z + World.Instance.chunkSize) % World.Instance.chunkSize] == (byte)BlockType.AIR;
                 
             } catch {
                 
@@ -115,7 +115,14 @@ public class Chunk : MonoBehaviour {
 
     public Vector3 vec = new Vector3();
 
-    public void BuildMesh() {
+
+    /*
+     * This function builds a list of meshes that will be combined into 
+     * 
+     */
+
+/*    
+    public void BuildChunk() {
         CI = new List<CombineInstance>();
         for (int x = 0; x < World.Instance.chunkSize; x++) {
             vec.x = x;
@@ -125,7 +132,7 @@ public class Chunk : MonoBehaviour {
                     vec.y = y;
 
                     cursorObj.transform.localPosition = vec - transform.position;
-                    blockData[x, y, z] = new Block(chunkdata[x, y, z], new Vector3(x, y, z), gameObject, this);
+                    blockData[x, y, z] = new Block((byte)chunkdata[x, y, z], new Vector3(x, y, z), gameObject, this);
                     blockData[x, y, z].Draw(isEmpty(x, y + 1, z), isEmpty(x, y - 1, z), isEmpty(x, y, z + 1), isEmpty(x, y, z - 1), isEmpty(x - 1, y, z), isEmpty(x + 1, y, z));
 
 
@@ -133,14 +140,109 @@ public class Chunk : MonoBehaviour {
                 }
             }
         }
-    }
 
-    // Use this for initialization
-
-    public void BuildChunk() {
-        BuildMesh();
         CombineQuads();
     }
+
+        */
+    
+    MeshBuilder meshBuilder = new MeshBuilder();
+
+
+    Vector3 upDir;
+    Vector3 rightDir;
+    Vector3 forwardDir;
+
+   
+    Vector3 Ioffset;
+
+
+    // Use this for initialization
+    public void BuildChunk() {
+        Ioffset = new Vector3();
+       // chunkdata = new byte[World.Instance.chunkSize, World.Instance.chunkheight, World.Instance.chunkSize];
+
+        upDir = Vector3.up;
+        rightDir = Vector3.right;
+        forwardDir = Vector3.forward;
+
+        nearCorner = Vector3.zero;
+        farCorner = upDir + rightDir + forwardDir;
+
+        for (int x = 0; x < World.Instance.chunkSize; x++) {
+            Ioffset.x = x;
+            for (int y = 0; y < World.Instance.chunkheight; y++) {
+                Ioffset.y = y;
+                for (int z = 0; z < World.Instance.chunkSize; z++) {
+                    Ioffset.z = z;
+                    byte b = chunkdata[x, y, z];
+                    if (b != (byte)BlockType.AIR) {
+
+                        if (isEmpty(x, y-1, z))
+                            BuildQuad(meshBuilder, nearCorner + Ioffset, forwardDir, rightDir, (int)b);
+                        if (isEmpty(x, y, z-1))
+                            BuildQuad(meshBuilder, nearCorner + Ioffset, rightDir, upDir, (int)b);
+                        if (isEmpty(x - 1, y, z))
+                            BuildQuad(meshBuilder, nearCorner + Ioffset, upDir, forwardDir, (int)b);
+                        if (isEmpty(x, y + 1, z))
+                            BuildQuad(meshBuilder, farCorner + Ioffset, -rightDir, -forwardDir, (int)b);
+                        if (isEmpty(x, y, z + 1))
+                            BuildQuad(meshBuilder, farCorner + Ioffset, -upDir, -rightDir, (int)b);
+                        if (isEmpty(x + 1, y, z))
+                            BuildQuad(meshBuilder, farCorner + Ioffset, -forwardDir, -upDir, (int)b);
+
+                    }
+
+                }
+            }
+
+        }
+
+        BuildMesh();
+
+    }
+
+    public void BuildMesh() {
+        Mesh mesh = meshBuilder.CreateMesh();
+
+        mesh = GetComponent<MeshFilter>().mesh = mesh;
+        GetComponent<MeshRenderer>().material = World.Instance.mat;
+        GetComponent<MeshCollider>().sharedMesh = mesh;
+    }
+
+
+    Vector3 nearCorner;
+    Vector3 farCorner;
+
+
+    void BuildQuad(MeshBuilder meshBuilder, Vector3 offset,
+    Vector3 widthDir, Vector3 lengthDir, int index) {
+        Vector3 normal = Vector3.Cross(lengthDir, widthDir).normalized;
+
+        meshBuilder.Vertices.Add(offset);
+        meshBuilder.UVs.Add(World.blockUVs[index + 1, 0]);
+        meshBuilder.Normals.Add(normal);
+
+        meshBuilder.Vertices.Add(offset + lengthDir);
+        meshBuilder.UVs.Add(World.blockUVs[index + 1, 2]);
+        meshBuilder.Normals.Add(normal);
+
+        meshBuilder.Vertices.Add(offset + lengthDir + widthDir);
+        meshBuilder.UVs.Add(World.blockUVs[index + 1, 3]);
+        meshBuilder.Normals.Add(normal);
+
+        meshBuilder.Vertices.Add(offset + widthDir);
+        meshBuilder.UVs.Add(World.blockUVs[index + 1, 1]);
+        meshBuilder.Normals.Add(normal);
+
+        int baseIndex = meshBuilder.Vertices.Count - 4;
+
+        meshBuilder.AddTriangle(baseIndex, baseIndex + 1, baseIndex + 2);
+        meshBuilder.AddTriangle(baseIndex, baseIndex + 2, baseIndex + 3);
+    }
+
+        
+
 
     public List<CombineInstance> CI = new List<CombineInstance>();
 

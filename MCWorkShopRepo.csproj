@@ -239,6 +239,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\BlockInteraction.cs" />
+    <Compile Include="Assets\BuildCube.cs" />
+    <Compile Include="Assets\ItemBlock.cs" />
+    <Compile Include="Assets\MeshBuilder.cs" />
     <Compile Include="Assets\Scripts\Math and Utils\Noise.cs" />
     <Compile Include="Assets\Scripts\Math and Utils\ProcessTextureAtlas.cs" />
     <Compile Include="Assets\Scripts\Math and Utils\Singleton.cs" />

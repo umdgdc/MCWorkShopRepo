@@ -24,6 +24,7 @@ GameObject:
   - component: {fileID: 23603090746356026}
   - component: {fileID: 143270861159161680}
   - component: {fileID: 114473738685704090}
+  - component: {fileID: 114203555038003376}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -56,7 +57,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1631412814504668}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 200, z: 25.1}
+  m_LocalPosition: {x: 0, y: 200, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4928250075216068}
@@ -84,8 +85,8 @@ Camera:
   m_GameObject: {fileID: 1702040060548032}
   m_Enabled: 1
   serializedVersion: 2
-  m_ClearFlags: 1
-  m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0}
+  m_ClearFlags: 2
+  m_BackGroundColor: {r: 0.1978806, g: 0.46978322, b: 0.89705884, a: 0}
   m_NormalizedViewPortRect:
     serializedVersion: 2
     x: 0
@@ -93,7 +94,7 @@ Camera:
     width: 1
     height: 1
   near clip plane: 0.3
-  far clip plane: 1000
+  far clip plane: 160
   field of view: 60
   orthographic: 0
   orthographic size: 5
@@ -160,6 +161,21 @@ AudioListener:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1702040060548032}
   m_Enabled: 1
+--- !u!114 &114203555038003376
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1631412814504668}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 999aedfa3fee82243ab24ed1b9047d58, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cam: {fileID: 20063914413677086}
+  TestClick: {fileID: 0}
+  itemBlock: {fileID: 1081985687695884, guid: 692a889af7c637e418943b89dc95f23d, type: 2}
+  tm: {fileID: 0}
 --- !u!114 &114473738685704090
 MonoBehaviour:
   m_ObjectHideFlags: 1

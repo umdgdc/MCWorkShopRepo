@@ -621,9 +621,9 @@ MonoBehaviour:
   mat: {fileID: 2100000, guid: b64894e845e882d42ae941c743b6c2bb, type: 2}
   chunkSize: 16
   worldheight: 1
-  chunkheight: 150
+  chunkheight: 50
   initialWorldSize: 5
-  WaterHeight: 30
+  WaterHeight: 0
   chunk: {fileID: 1860415453659156, guid: bcc9f1d6519df594d9cf2c91993b457d, type: 2}
   PlayerStartPostion: {x: 0, y: 0, z: 0}
   n: {fileID: 0}
@@ -653,7 +653,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6e23232db837aae4799da879cb7d567f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHeight: 100
+  maxHeight: 50
   smooth: 0.01
   persistence: 0.05
   octaves: 4
@@ -665,20 +665,6 @@ GameObject:
   m_PrefabParentObject: {fileID: 1631412814504668, guid: e30efd502bb05f84b9072217a3725d08,
     type: 2}
   m_PrefabInternal: {fileID: 1832670841}
---- !u!114 &1368388417
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1368388416}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 999aedfa3fee82243ab24ed1b9047d58, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  cam: {fileID: 2024326726}
-  TestClick: {fileID: 2138837829}
-  tm: {fileID: 1486272576}
 --- !u!1 &1429299923
 GameObject:
   m_ObjectHideFlags: 0
@@ -913,55 +899,51 @@ Prefab:
       propertyPath: m_RootOrder
       value: 2
       objectReference: {fileID: 0}
-    - target: {fileID: 4750926877671598, guid: e30efd502bb05f84b9072217a3725d08, type: 2}
-      propertyPath: m_LocalScale.x
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4750926877671598, guid: e30efd502bb05f84b9072217a3725d08, type: 2}
-      propertyPath: m_LocalScale.y
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4750926877671598, guid: e30efd502bb05f84b9072217a3725d08, type: 2}
-      propertyPath: m_LocalScale.z
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 20063914413677086, guid: e30efd502bb05f84b9072217a3725d08,
+    - target: {fileID: 114203555038003376, guid: e30efd502bb05f84b9072217a3725d08,
         type: 2}
-      propertyPath: far clip plane
-      value: 160
+      propertyPath: TestClick
+      value: 
+      objectReference: {fileID: 2138837829}
+    - target: {fileID: 114203555038003376, guid: e30efd502bb05f84b9072217a3725d08,
+        type: 2}
+      propertyPath: tm
+      value: 
+      objectReference: {fileID: 1486272576}
+    - target: {fileID: 1631412814504668, guid: e30efd502bb05f84b9072217a3725d08, type: 2}
+      propertyPath: m_TagString
+      value: Player
+      objectReference: {fileID: 0}
+    - target: {fileID: 143270861159161680, guid: e30efd502bb05f84b9072217a3725d08,
+        type: 2}
+      propertyPath: m_Radius
+      value: 0.4
+      objectReference: {fileID: 0}
+    - target: {fileID: 136732473850804664, guid: e30efd502bb05f84b9072217a3725d08,
+        type: 2}
+      propertyPath: m_Radius
+      value: 0.6
       objectReference: {fileID: 0}
     - target: {fileID: 1631412814504668, guid: e30efd502bb05f84b9072217a3725d08, type: 2}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 20063914413677086, guid: e30efd502bb05f84b9072217a3725d08,
-        type: 2}
-      propertyPath: m_ClearFlags
+      propertyPath: m_Layer
       value: 2
       objectReference: {fileID: 0}
-    - target: {fileID: 20063914413677086, guid: e30efd502bb05f84b9072217a3725d08,
-        type: 2}
-      propertyPath: m_BackGroundColor.r
-      value: 0.1978806
+    - target: {fileID: 1702040060548032, guid: e30efd502bb05f84b9072217a3725d08, type: 2}
+      propertyPath: m_Layer
+      value: 2
       objectReference: {fileID: 0}
-    - target: {fileID: 20063914413677086, guid: e30efd502bb05f84b9072217a3725d08,
+    - target: {fileID: 136732473850804664, guid: e30efd502bb05f84b9072217a3725d08,
         type: 2}
-      propertyPath: m_BackGroundColor.g
-      value: 0.46978322
+      propertyPath: m_IsTrigger
+      value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 20063914413677086, guid: e30efd502bb05f84b9072217a3725d08,
+    - target: {fileID: 136732473850804664, guid: e30efd502bb05f84b9072217a3725d08,
         type: 2}
-      propertyPath: m_BackGroundColor.b
-      value: 0.89705884
+      propertyPath: m_Height
+      value: 2.2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: e30efd502bb05f84b9072217a3725d08, type: 2}
   m_IsPrefabParent: 0
---- !u!20 &2024326726 stripped
-Camera:
-  m_PrefabParentObject: {fileID: 20063914413677086, guid: e30efd502bb05f84b9072217a3725d08,
-    type: 2}
-  m_PrefabInternal: {fileID: 1832670841}
 --- !u!1 &2138837829 stripped
 GameObject:
   m_PrefabParentObject: {fileID: 1588852916717138, guid: 9fa3abe6712d8aa4b9908fc0fc1a693c,
