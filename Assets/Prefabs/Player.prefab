@@ -27,7 +27,7 @@ GameObject:
   - component: {fileID: 114203555038003376}
   m_Layer: 0
   m_Name: Player
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -173,9 +173,45 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cam: {fileID: 20063914413677086}
-  TestClick: {fileID: 0}
   itemBlock: {fileID: 1081985687695884, guid: 692a889af7c637e418943b89dc95f23d, type: 2}
+  TestClick: {fileID: 0}
+  DragCursor: {fileID: 0}
   tm: {fileID: 0}
+  currStack: {fileID: 0}
+  blockDB:
+  - id: 0
+    iType: 0
+    count: 0
+    name: Grass
+    icon: {fileID: 21300480, guid: b27339bf7f710084496ce43acca14973, type: 3}
+  - id: 1
+    iType: 0
+    count: 0
+    name: Dirt
+    icon: {fileID: 21300064, guid: b27339bf7f710084496ce43acca14973, type: 3}
+  - id: 2
+    iType: 0
+    count: 0
+    name: Stone
+    icon: {fileID: 21300448, guid: b27339bf7f710084496ce43acca14973, type: 3}
+  - id: 3
+    iType: 0
+    count: 0
+    name: Water
+    icon: {fileID: 21300126, guid: b27339bf7f710084496ce43acca14973, type: 3}
+  invWindow: {fileID: 0}
+  cm: {fileID: 0}
+  buttonIndex: 0
+  slotMax: 64
+  invBar:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
 --- !u!114 &114473738685704090
 MonoBehaviour:
   m_ObjectHideFlags: 1

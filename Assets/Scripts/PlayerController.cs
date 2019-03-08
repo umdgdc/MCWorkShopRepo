@@ -40,7 +40,8 @@ public class PlayerController : MonoBehaviour {
 
        
 
-        if (Input.GetAxis("Mouse X") != 0 || Input.GetAxis("Mouse Y") != 0) {
+        if ( World.Instance.gameState == GameState.WORLD &&
+            (Input.GetAxis("Mouse X") != 0 || Input.GetAxis("Mouse Y") != 0)) {
 
               float roty, rotx;
               rotx = transform.localEulerAngles.y + Input.GetAxis("Mouse X") * xSensitivity;

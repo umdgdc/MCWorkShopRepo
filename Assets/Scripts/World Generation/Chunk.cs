@@ -37,7 +37,7 @@ public class Chunk : MonoBehaviour {
 
 
                     
-                    if (World.Instance.n.fBM3D((int)(x + transform.position.x), (int)(y + transform.position.y), (int)(z + transform.position.z), 0.1f, 3) < 0.42f) {
+                    /*if (World.Instance.n.fBM3D((int)(x + transform.position.x), (int)(y + transform.position.y), (int)(z + transform.position.z), 0.1f, 3) < 0.42f) {
                         if (prevair && watertop && y < World.Instance.WaterHeight)
                             chunkdata[x, y, z] = (byte)BlockType.WATER;
                             else if (y < World.Instance.WaterHeight && prevair) chunkdata[x, y, z] = (byte)BlockType.WATER;
@@ -45,7 +45,7 @@ public class Chunk : MonoBehaviour {
 
                     }
                     
-                     else if (y <= World.Instance.n.OldGenerateHeight(x + transform.position.x, z + transform.position.z)) {
+                     else*/ if (y <= World.Instance.n.OldGenerateHeight(x + transform.position.x, z + transform.position.z)) {
                         if (prevair) {
                             prevair = false;
                             chunkdata[x, y, z] = (byte)BlockType.GRASS;
@@ -152,13 +152,14 @@ public class Chunk : MonoBehaviour {
     Vector3 upDir;
     Vector3 rightDir;
     Vector3 forwardDir;
-
+    Vector3 botCorner;
    
     Vector3 Ioffset;
 
 
     // Use this for initialization
     public void BuildChunk() {
+        meshBuilder = new MeshBuilder();
         Ioffset = new Vector3();
        // chunkdata = new byte[World.Instance.chunkSize, World.Instance.chunkheight, World.Instance.chunkSize];
 
@@ -168,6 +169,8 @@ public class Chunk : MonoBehaviour {
 
         nearCorner = Vector3.zero;
         farCorner = upDir + rightDir + forwardDir;
+        botCorner = rightDir + forwardDir;
+
 
         for (int x = 0; x < World.Instance.chunkSize; x++) {
             Ioffset.x = x;
@@ -178,18 +181,29 @@ public class Chunk : MonoBehaviour {
                     byte b = chunkdata[x, y, z];
                     if (b != (byte)BlockType.AIR) {
 
-                        if (isEmpty(x, y-1, z))
+                        if (isEmpty(x, y-1, z)) {
+                            if (b == 0)
+                            BuildQuad(meshBuilder, nearCorner + Ioffset, forwardDir, rightDir, 1);
+                            else
                             BuildQuad(meshBuilder, nearCorner + Ioffset, forwardDir, rightDir, (int)b);
+                        }
+                        //Back
                         if (isEmpty(x, y, z-1))
                             BuildQuad(meshBuilder, nearCorner + Ioffset, rightDir, upDir, (int)b);
                         if (isEmpty(x - 1, y, z))
-                            BuildQuad(meshBuilder, nearCorner + Ioffset, upDir, forwardDir, (int)b);
-                        if (isEmpty(x, y + 1, z))
+                            BuildQuad(meshBuilder, forwardDir + Ioffset, -forwardDir, upDir, (int)b);
+                        if (isEmpty(x, y + 1, z)) {
+
+                            if (b == 0)
+                            BuildQuad(meshBuilder, farCorner + Ioffset, -rightDir, -forwardDir, 4);
+                            else
                             BuildQuad(meshBuilder, farCorner + Ioffset, -rightDir, -forwardDir, (int)b);
-                        if (isEmpty(x, y, z + 1))
-                            BuildQuad(meshBuilder, farCorner + Ioffset, -upDir, -rightDir, (int)b);
+
+                        }
+                        if (isEmpty(x, y, z + 1)) 
+                            BuildQuad(meshBuilder, botCorner + Ioffset, -rightDir, upDir, (int)b);
                         if (isEmpty(x + 1, y, z))
-                            BuildQuad(meshBuilder, farCorner + Ioffset, -forwardDir, -upDir, (int)b);
+                            BuildQuadI(meshBuilder, farCorner + Ioffset, -forwardDir, -upDir, (int)b);
 
                     }
 
@@ -205,7 +219,7 @@ public class Chunk : MonoBehaviour {
     public void BuildMesh() {
         Mesh mesh = meshBuilder.CreateMesh();
 
-        mesh = GetComponent<MeshFilter>().mesh = mesh;
+        GetComponent<MeshFilter>().mesh = mesh;
         GetComponent<MeshRenderer>().material = World.Instance.mat;
         GetComponent<MeshCollider>().sharedMesh = mesh;
     }
@@ -220,19 +234,19 @@ public class Chunk : MonoBehaviour {
         Vector3 normal = Vector3.Cross(lengthDir, widthDir).normalized;
 
         meshBuilder.Vertices.Add(offset);
-        meshBuilder.UVs.Add(World.blockUVs[index + 1, 0]);
+        meshBuilder.UVs.Add(World.blockUVs[index , 0]);
         meshBuilder.Normals.Add(normal);
 
         meshBuilder.Vertices.Add(offset + lengthDir);
-        meshBuilder.UVs.Add(World.blockUVs[index + 1, 2]);
+        meshBuilder.UVs.Add(World.blockUVs[index, 2]);
         meshBuilder.Normals.Add(normal);
 
         meshBuilder.Vertices.Add(offset + lengthDir + widthDir);
-        meshBuilder.UVs.Add(World.blockUVs[index + 1, 3]);
+        meshBuilder.UVs.Add(World.blockUVs[index, 3]);
         meshBuilder.Normals.Add(normal);
 
         meshBuilder.Vertices.Add(offset + widthDir);
-        meshBuilder.UVs.Add(World.blockUVs[index + 1, 1]);
+        meshBuilder.UVs.Add(World.blockUVs[index , 1]);
         meshBuilder.Normals.Add(normal);
 
         int baseIndex = meshBuilder.Vertices.Count - 4;
@@ -241,7 +255,35 @@ public class Chunk : MonoBehaviour {
         meshBuilder.AddTriangle(baseIndex, baseIndex + 2, baseIndex + 3);
     }
 
+
+    void BuildQuadI(MeshBuilder meshBuilder, Vector3 offset,
+    Vector3 widthDir, Vector3 lengthDir, int index) {
+        Vector3 normal = Vector3.Cross( widthDir, lengthDir).normalized;
         
+
+        meshBuilder.Vertices.Add(offset);
+        meshBuilder.UVs.Add(World.blockUVs[index, 3]);
+        meshBuilder.Normals.Add(normal);
+
+        meshBuilder.Vertices.Add(offset + lengthDir);
+        meshBuilder.UVs.Add(World.blockUVs[index, 1]);
+        meshBuilder.Normals.Add(normal);
+
+        meshBuilder.Vertices.Add(offset + lengthDir + widthDir);
+        meshBuilder.UVs.Add(World.blockUVs[index, 0]);
+        meshBuilder.Normals.Add(normal);
+
+        meshBuilder.Vertices.Add(offset + widthDir);
+        meshBuilder.UVs.Add(World.blockUVs[index, 2]);
+        meshBuilder.Normals.Add(normal);
+
+        int baseIndex = meshBuilder.Vertices.Count - 4;
+
+        meshBuilder.AddTriangle(baseIndex, baseIndex + 1, baseIndex + 2);
+        meshBuilder.AddTriangle(baseIndex, baseIndex + 2, baseIndex + 3);
+    }
+
+
 
 
     public List<CombineInstance> CI = new List<CombineInstance>();

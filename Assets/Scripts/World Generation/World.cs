@@ -6,10 +6,13 @@ using UnityEngine.UI;
 
 public enum BlockType { GRASS, DIRT, STONE, WATER, LEAVES, TRUNK, AIR };
 
+public enum GameState { WORLD, INVENTORY, OPTIONS };
 
 public class World : Singleton<World> {
 
-    
+
+
+    public GameState gameState;
     public int seed;
     public Material mat;
     public int chunkSize = 16;
@@ -28,15 +31,14 @@ public class World : Singleton<World> {
      * 1 = Dirt
      * 2 = Stone
      * 3 = Water
-     * 6 = 
+     * 
      * 
      */
 
 
     public static Vector2[,] blockUVs = { 
 
-		/*GRASS TOP*/		{new Vector2( 0.125f, 0.375f ), new Vector2( 0.1875f, 0.375f),
-                                new Vector2( 0.125f, 0.4375f ),new Vector2( 0.1875f, 0.4375f )},
+		
 		/*GRASS SIDE*/		{new Vector2( 0.1875f, 0.9375f ), new Vector2( 0.25f, 0.9375f),
                                 new Vector2( 0.1875f, 1.0f ),new Vector2( 0.25f, 1.0f )},
 		/*DIRT*/			{new Vector2( 0.125f, 0.9375f ), new Vector2( 0.1875f, 0.9375f),
@@ -45,17 +47,14 @@ public class World : Singleton<World> {
                                 new Vector2( 0, 0.9375f ),new Vector2( 0.0625f, 0.9375f )},
         /*WATER*/           {new Vector2( 0.875f, 0.1875f ), new Vector2( 0.9375f, 0.1875f),
                                 new Vector2( 0.875f, 0.25f ),new Vector2( 0.9375f, 0.25f )},
-        
-        /*LEAVES*/          {new Vector2( 0.3125f, 0.75f ), new Vector2( 0.375f, 0.75f),
-                                new Vector2( 0.3125f, 0.8125f ),new Vector2( 0.375f, 0.8125f )},
-        
-        /*TRUNK*/           {new Vector2( 0.4375f, 0.625f ), new Vector2( 0.5f, 0.625f),
-                                new Vector2( 0.4375f, 0.6875f ),new Vector2( 0.5f, 0.6875f )},
-
+        /*GRASS TOP*/		{new Vector2( 0, 0.9375f ), new Vector2( 0.0625f, 0.9375f),
+                                new Vector2( 0, 1 ),new Vector2( 0.0625f, 1 )}
                         };
 
 
     IEnumerator BuildWorld() {
+
+        gameState = GameState.WORLD;
 
         Player.SetActive(false);
 

@@ -238,13 +238,15 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\BlockInteraction.cs" />
-    <Compile Include="Assets\BuildCube.cs" />
-    <Compile Include="Assets\ItemBlock.cs" />
-    <Compile Include="Assets\MeshBuilder.cs" />
+    <Compile Include="Assets\ISlot.cs" />
+    <Compile Include="Assets\Scripts\BuildCube.cs" />
+    <Compile Include="Assets\Scripts\CraftingMaster.cs" />
+    <Compile Include="Assets\Scripts\InventoryManager.cs" />
+    <Compile Include="Assets\Scripts\ItemBlock.cs" />
     <Compile Include="Assets\Scripts\Math and Utils\Noise.cs" />
     <Compile Include="Assets\Scripts\Math and Utils\ProcessTextureAtlas.cs" />
     <Compile Include="Assets\Scripts\Math and Utils\Singleton.cs" />
+    <Compile Include="Assets\Scripts\MeshBuilder.cs" />
     <Compile Include="Assets\Scripts\PlayerController.cs" />
     <Compile Include="Assets\Scripts\World Generation\Block.cs" />
     <Compile Include="Assets\Scripts\World Generation\Chunk.cs" />
