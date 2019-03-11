@@ -51,8 +51,8 @@ LightmapSettings:
     m_AlbedoBoost: 1
     m_TemporalCoherenceThreshold: 1
     m_EnvironmentLightingMode: 0
-    m_EnableBakedLightmaps: 1
-    m_EnableRealtimeLightmaps: 0
+    m_EnableBakedLightmaps: 0
+    m_EnableRealtimeLightmaps: 1
   m_LightmapEditorSettings:
     serializedVersion: 9
     m_Resolution: 2
@@ -1047,7 +1047,7 @@ MonoBehaviour:
   chunkSize: 16
   worldheight: 1
   chunkheight: 100
-  initialWorldSize: 2
+  initialWorldSize: 10
   WaterHeight: 15
   chunk: {fileID: 1860415453659156, guid: bcc9f1d6519df594d9cf2c91993b457d, type: 2}
   PlayerStartPostion: {x: 0, y: 0, z: 0}
